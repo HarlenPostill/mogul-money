@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { GameState, Player } from '../types'
 import { FINAL } from '../content'
 import './FinalReveal.css'
@@ -11,16 +12,23 @@ function PlayerCard({
   player,
   state,
   revealed,
+  order,
+  side,
 }: {
   player: Player
   state: GameState
   revealed: boolean
+  order: number
+  side: 'left' | 'right'
 }) {
   const wager = state.final.wagers[player.id]
   const answer = state.final.answers[player.id]
 
   return (
-    <article className={`final-card${revealed ? ' final-card--revealed' : ''}`}>
+    <article
+      className={`final-card final-card--${side}${revealed ? ' final-card--revealed' : ''}`}
+      style={{ '--final-card-delay': `${180 + order * 110}ms` } as CSSProperties}
+    >
       <h3 className="final-card__name">{player.name}</h3>
       <p className="final-card__answer">
         {revealed ? answer || '— no answer —' : '• • •'}
@@ -48,14 +56,16 @@ export default function FinalReveal({ players, state }: Props) {
   const right = players.filter((_, i) => i % 2 === 1)
   const indexOf = (player: Player) => players.findIndex((p) => p.id === player.id)
 
-  const column = (group: Player[], side: string) => (
+  const column = (group: Player[], side: 'left' | 'right') => (
     <div className={`final__column final__column--${side}`}>
-      {group.map((player) => (
+      {group.map((player, order) => (
         <PlayerCard
           key={player.id}
           player={player}
           state={state}
           revealed={revealIndex >= indexOf(player)}
+          order={order}
+          side={side}
         />
       ))}
     </div>

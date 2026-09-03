@@ -102,7 +102,7 @@ function Buzzer({ player, state }: { player: Player; state: GameState }) {
       </button>
       <p className="player__muted">
         {!live
-          ? 'The buzzer wakes up when a clue goes on the board.'
+          ? 'The buzzer appears when the question goes on the board.'
           : position === 0
             ? 'You were first in.'
             : position > 0

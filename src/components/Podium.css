@@ -1,0 +1,259 @@
+.podium {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.5vh, 2rem);
+  padding: clamp(1rem, 3vh, 3rem) clamp(0.75rem, 2vw, 3rem);
+}
+
+.podium__logo {
+  height: clamp(3rem, 12vh, 9rem);
+  width: auto;
+  object-fit: contain;
+  flex: 0 0 auto;
+  animation: podium-fade 0.6s var(--mm-ease) both;
+}
+
+.podium__eyebrow {
+  flex: 0 0 auto;
+  animation: podium-fade 0.6s var(--mm-ease) both;
+}
+
+/* The stage takes all the vertical room the logo and lists leave behind. */
+.podium__stage {
+  flex: 1 1 auto;
+}
+
+.podium__stage {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: end;
+  gap: clamp(0.6rem, 2vw, 2rem);
+  width: min(100%, 60rem);
+}
+
+/* ---------------------------------------------------------------- pedestals */
+
+.podium-stand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.4rem, 1.2vh, 1rem);
+  min-width: 0;
+}
+
+.podium-stand--ghost {
+  visibility: hidden;
+}
+
+.podium-stand__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2em;
+  width: 100%;
+  padding: clamp(0.5rem, 1.4vw, 1.1rem) clamp(0.4rem, 1.2vw, 1rem);
+  border-radius: var(--mm-radius);
+  border: 2px solid var(--mm-line);
+  background: var(--mm-veil);
+  text-align: center;
+  transition: background 0.4s var(--mm-ease), transform 0.4s var(--mm-ease),
+    border-color 0.4s var(--mm-ease);
+}
+
+.podium-stand__crown {
+  font-size: clamp(1.4rem, 3vw, 2.6rem);
+  line-height: 1;
+  color: var(--mm-gold-deep);
+}
+
+.podium-stand__name {
+  font-size: clamp(0.9rem, 1.8vw, 1.8rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+
+.podium-stand__score {
+  font-family: var(--mm-font-body);
+  font-weight: 700;
+  font-size: clamp(0.8rem, 1.4vw, 1.3rem);
+  letter-spacing: 0.08em;
+}
+
+.podium-stand__block {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(0.5rem, 1.4vh, 1rem);
+  border-radius: var(--mm-radius) var(--mm-radius) 0 0;
+  background: var(--mm-board-purple);
+  border: 2px solid var(--mm-board-stroke);
+  border-bottom: none;
+  transform-origin: bottom;
+  transform: scaleY(0);
+  transition: transform 0.55s var(--mm-ease);
+}
+
+.podium-stand--1 .podium-stand__block {
+  height: clamp(10rem, 42vh, 30rem);
+}
+
+.podium-stand--2 .podium-stand__block {
+  height: clamp(6.5rem, 28vh, 20rem);
+}
+
+.podium-stand--3 .podium-stand__block {
+  height: clamp(4rem, 17vh, 12rem);
+}
+
+.podium-stand__place {
+  font-size: clamp(1rem, 2.4vw, 2.4rem);
+  color: var(--mm-gold-pale);
+  letter-spacing: 0.06em;
+}
+
+/* Hidden until the host uncovers this place. */
+.podium-stand__card {
+  opacity: 0;
+  transform: translateY(1.5rem) scale(0.94);
+}
+
+.podium-stand--in .podium-stand__card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.podium-stand--in .podium-stand__block {
+  transform: scaleY(1);
+}
+
+.podium-stand--winner.podium-stand--in .podium-stand__card {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  border-color: transparent;
+  animation: podium-pop 0.7s var(--mm-ease);
+}
+
+.podium-stand--winner.podium-stand--in .podium-stand__crown {
+  color: var(--mm-ink);
+}
+
+/* ------------------------------------------------------------------- confetti */
+
+.podium-stand__confetti {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.podium-confetti {
+  position: absolute;
+  top: 0;
+  left: var(--x);
+  width: 0.5rem;
+  height: 0.9rem;
+  border-radius: 2px;
+  background: var(--mm-gold-deep);
+  opacity: 0;
+  animation: podium-confetti-fall 1.6s var(--mm-ease) var(--delay) infinite;
+}
+
+.podium-confetti:nth-child(even) {
+  background: var(--mm-gold-pale);
+}
+
+.podium-confetti:nth-child(3n) {
+  background: var(--mm-good);
+}
+
+/* ------------------------------------------------------------------- also-rans */
+
+.podium__rest {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: min(100%, 42rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.3rem, 0.9vh, 0.6rem);
+}
+
+.podium-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.8em;
+  padding: clamp(0.4rem, 1vh, 0.75rem) clamp(0.7rem, 1.5vw, 1.1rem);
+  border-radius: var(--mm-radius);
+  border: 2px solid var(--mm-line);
+  background: var(--mm-veil);
+  opacity: 0;
+  transform: translateX(-1.5rem);
+  transition: opacity 0.4s var(--mm-ease), transform 0.4s var(--mm-ease);
+}
+
+.podium-row--in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.podium-row__place {
+  font-size: clamp(0.8rem, 1.4vw, 1.2rem);
+  color: var(--mm-muted);
+}
+
+.podium-row__name {
+  font-size: clamp(0.9rem, 1.6vw, 1.4rem);
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.podium-row__score {
+  font-family: var(--mm-font-body);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+@keyframes podium-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes podium-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes podium-confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(-0.5rem) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(9rem) rotate(320deg);
+  }
+}
+
+@media (max-width: 720px) {
+  .podium-stand__name {
+    font-size: 0.95rem;
+  }
+}

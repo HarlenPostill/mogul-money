@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import type { BoardId } from '../types'
 import { boardContent } from '../game'
 import './CategoryPreview.css'
@@ -15,6 +16,25 @@ interface Props {
  */
 export default function CategoryPreview({ board, index }: Props) {
   const { categories } = boardContent(board)
+  const [displayedIndex, setDisplayedIndex] = useState(index)
+  const [leavingIndex, setLeavingIndex] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (index === displayedIndex) return
+
+    if (displayedIndex < 0) {
+      setDisplayedIndex(index)
+      return
+    }
+
+    setLeavingIndex(displayedIndex)
+    const timeout = window.setTimeout(() => {
+      setDisplayedIndex(index)
+      setLeavingIndex(null)
+    }, 220)
+
+    return () => window.clearTimeout(timeout)
+  }, [displayedIndex, index])
 
   return (
     <div className="preview">
@@ -23,8 +43,9 @@ export default function CategoryPreview({ board, index }: Props) {
       </p>
       <ul className="preview__list">
         {categories.map((category, i) => {
-          const revealed = i <= index
-          const current = i === index
+          const revealed = i <= displayedIndex
+          const current = i === displayedIndex
+          const leaving = i === leavingIndex
           return (
             <li
               key={category.title}
@@ -32,6 +53,7 @@ export default function CategoryPreview({ board, index }: Props) {
                 'preview__item',
                 revealed ? 'preview__item--in' : '',
                 current ? 'preview__item--current' : '',
+                leaving ? 'preview__item--leaving' : '',
               ]
                 .filter(Boolean)
                 .join(' ')}
@@ -40,7 +62,9 @@ export default function CategoryPreview({ board, index }: Props) {
               <span className="preview__number">{i + 1}</span>
               <span className="preview__body">
                 <span className="preview__title">{category.title}</span>
-                {current && <span className="preview__desc">{category.description}</span>}
+                <span className="preview__desc-shell">
+                  <span className="preview__desc">{category.description}</span>
+                </span>
               </span>
             </li>
           )

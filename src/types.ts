@@ -1,4 +1,11 @@
-export type Phase = 'lobby' | 'preview1' | 'board1' | 'preview2' | 'board2' | 'final'
+export type Phase =
+  | 'lobby'
+  | 'preview1'
+  | 'board1'
+  | 'preview2'
+  | 'board2'
+  | 'final'
+  | 'podium'
 
 export const PHASES: Phase[] = [
   'lobby',
@@ -7,6 +14,7 @@ export const PHASES: Phase[] = [
   'preview2',
   'board2',
   'final',
+  'podium',
 ]
 
 export const PHASE_LABELS: Record<Phase, string> = {
@@ -16,6 +24,7 @@ export const PHASE_LABELS: Record<Phase, string> = {
   preview2: 'Preview 2',
   board2: 'Board 2',
   final: 'Final',
+  podium: 'Podium',
 }
 
 export type BoardId = 1 | 2
@@ -56,6 +65,8 @@ export interface ActiveClue {
   row: number
   /** false = main screen goes blank while the host talks */
   revealed: boolean
+  /** true = main screen also shows the correct response */
+  answerRevealed: boolean
 }
 
 export interface FinalState {
@@ -78,6 +89,11 @@ export interface GameState {
   /** playerId -> server timestamp of their buzz */
   buzzes: Record<string, number>
   final: FinalState
+  /**
+   * How many podium places the host has revealed, counting up from last
+   * place. 0 = nothing shown, n = every place including the winner.
+   */
+  podiumIndex: number
   startedAt: number | null
 }
 

@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react'
 import type { BoardId, GameState } from '../types'
 import { clueValue } from '../types'
 import { boardContent, isUsed } from '../game'
@@ -13,12 +14,32 @@ interface Props {
 
 export default function BoardGrid({ board, state, onPick, compact }: Props) {
   const { categories } = boardContent(board)
+  const activeCategory = state.active?.board === board ? state.active.category : null
 
   return (
-    <div className={`board${compact ? ' board--compact' : ''}`}>
+    <div
+      className={[
+        'board',
+        compact ? 'board--compact' : '',
+        !compact ? 'board--reveal' : '',
+        activeCategory !== null ? 'board--opening' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       <div className="board__row board__row--head">
-        {categories.map((category) => (
-          <div key={category.title} className="board__category">
+        {categories.map((category, col) => (
+          <div
+            key={category.title}
+            className={[
+              'board__category',
+              activeCategory === col ? 'board__category--active' : '',
+              `board__category--${col}`,
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            style={{ '--reveal-delay': `${col * 90}ms` } as CSSProperties}
+          >
             <span>{category.title}</span>
           </div>
         ))}
@@ -41,13 +62,16 @@ export default function BoardGrid({ board, state, onPick, compact }: Props) {
                   'board__cell',
                   spent ? 'board__cell--spent' : '',
                   active ? 'board__cell--active' : '',
+                  `board__cell--col-${col}`,
+                  `board__cell--row-${row}`,
                 ]
                   .filter(Boolean)
                   .join(' ')}
+                style={{ '--reveal-delay': `${(row + col + 1) * 90}ms` } as CSSProperties}
                 disabled={!onPick || spent}
                 onClick={() => onPick?.(col, row)}
               >
-                {spent ? '' : clueValue(board, row)}
+                <span className="board__value">{spent ? '' : clueValue(board, row)}</span>
               </button>
             )
           })}

@@ -26,12 +26,13 @@ const path = (...parts: (string | number)[]) => ref(db, [ROOT, ...parts].join('/
 
 export const DEFAULT_STATE: GameState = {
   phase: 'lobby',
-  previewIndex: 0,
+  previewIndex: -1,
   players: {},
   used: {},
   active: null,
   buzzes: {},
   final: { revealed: false, wagers: {}, answers: {}, revealIndex: -1 },
+  podiumIndex: 0,
   startedAt: null,
 }
 
@@ -87,12 +88,13 @@ export function normalizeState(raw: unknown): GameState {
           category: activeRaw.category,
           row: activeRaw.row,
           revealed: activeRaw.revealed !== false,
+          answerRevealed: activeRaw.answerRevealed === true,
         }
       : null
 
   return {
     phase: typeof r.phase === 'string' ? (r.phase as Phase) : 'lobby',
-    previewIndex: typeof r.previewIndex === 'number' ? r.previewIndex : 0,
+    previewIndex: typeof r.previewIndex === 'number' ? r.previewIndex : -1,
     players,
     used,
     active,
@@ -103,6 +105,7 @@ export function normalizeState(raw: unknown): GameState {
       answers,
       revealIndex: typeof finalRaw.revealIndex === 'number' ? finalRaw.revealIndex : -1,
     },
+    podiumIndex: typeof r.podiumIndex === 'number' ? r.podiumIndex : 0,
     startedAt: typeof r.startedAt === 'number' ? r.startedAt : null,
   }
 }
@@ -150,21 +153,24 @@ export const awardPoints = (id: string, delta: number) =>
 export const setPhase = (phase: Phase) => set(path('phase'), phase)
 
 export const setPreviewIndex = (index: number) =>
-  set(path('previewIndex'), Math.max(0, index))
+  set(path('previewIndex'), Math.max(-1, index))
 
 export const startGame = () =>
-  update(path(), { phase: 'preview1', previewIndex: 0, startedAt: serverTimestamp() })
+  update(path(), { phase: 'preview1', previewIndex: -1, startedAt: serverTimestamp() })
 
 /* -------------------------------------------------------------------- clues */
 
 export const openClue = (board: BoardId, category: number, row: number) =>
   update(path(), {
-    active: { board, category, row, revealed: true },
+    active: { board, category, row, revealed: true, answerRevealed: false },
     buzzes: null,
   })
 
 export const setClueRevealed = (revealed: boolean) =>
   set(path('active', 'revealed'), revealed)
+
+export const setClueAnswerRevealed = (revealed: boolean) =>
+  set(path('active', 'answerRevealed'), revealed)
 
 /** Close the current clue and mark it spent so it cannot be replayed. */
 export async function closeClue(board: BoardId, category: number, row: number) {
@@ -213,6 +219,21 @@ export const setFinalRevealIndex = (index: number) =>
 export const resetFinal = () =>
   set(path('final'), { revealed: false, revealIndex: -1 })
 
+/* ------------------------------------------------------------------- podium */
+
+export const setPodiumIndex = (index: number) =>
+  set(path('podiumIndex'), Math.max(0, index))
+
+/**
+ * Advance/rewind the reveal cursor relative to whatever is currently stored on
+ * the server. A plain `set(current + 1)` reads a value that can be stale by a
+ * round-trip, so mashing "Reveal next" would collapse several clicks into one.
+ */
+export const stepPodiumIndex = (delta: number, max: number) =>
+  runTransaction(path('podiumIndex'), (current) =>
+    Math.max(0, Math.min(max, (current ?? 0) + delta)),
+  )
+
 export const resetGame = () => set(path(), DEFAULT_STATE)
 
 /* ---------------------------------------------------------------- selectors */
@@ -220,6 +241,12 @@ export const resetGame = () => set(path(), DEFAULT_STATE)
 export const playersSorted = (state: GameState): Player[] =>
   Object.values(state.players).sort(
     (a, b) => a.joinedAt - b.joinedAt || a.name.localeCompare(b.name),
+  )
+
+/** Players from highest score to lowest, ties broken by name. */
+export const rankedByScore = (state: GameState): Player[] =>
+  Object.values(state.players).sort(
+    (a, b) => b.score - a.score || a.name.localeCompare(b.name),
   )
 
 /** Player ids in the order they buzzed in. */

@@ -27,6 +27,7 @@
   border: 2px solid var(--mm-line);
   background: var(--mm-veil);
   min-height: 0;
+  animation: final-centre-enter 0.62s var(--mm-ease) both;
 }
 
 .final__question {
@@ -62,6 +63,15 @@
   background: var(--mm-veil);
   transition: background 0.35s var(--mm-ease), color 0.35s var(--mm-ease),
     border-color 0.35s var(--mm-ease), transform 0.35s var(--mm-ease);
+  animation: final-card-enter 0.52s var(--mm-ease) var(--final-card-delay, 0ms) backwards;
+}
+
+.final-card--left {
+  --final-card-enter-x: -1.25rem;
+}
+
+.final-card--right {
+  --final-card-enter-x: 1.25rem;
 }
 
 .final-card--revealed {
@@ -93,6 +103,20 @@
   text-transform: uppercase;
   margin-top: 0.4em;
   opacity: 0.65;
+}
+
+@keyframes final-centre-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.96);
+  }
+}
+
+@keyframes final-card-enter {
+  from {
+    opacity: 0;
+    transform: translateX(var(--final-card-enter-x)) scale(0.96);
+  }
 }
 
 /* Narrow screens (and the host phone) stack the whole thing. */

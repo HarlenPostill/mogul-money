@@ -43,7 +43,13 @@ describe('normalizeState', () => {
 
   it('keeps a well-formed active clue and defaults revealed to true', () => {
     const state = normalizeState({ active: { board: 2, category: 1, row: 3 } })
-    expect(state.active).toEqual({ board: 2, category: 1, row: 3, revealed: true })
+    expect(state.active).toEqual({
+      board: 2,
+      category: 1,
+      row: 3,
+      revealed: true,
+      answerRevealed: false,
+    })
   })
 
   it('drops an active clue missing its coordinates', () => {

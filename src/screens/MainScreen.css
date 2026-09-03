@@ -16,7 +16,20 @@
 }
 
 .main__logo {
-  height: clamp(1.5rem, 4vh, 3rem);
+  height: clamp(1.5rem, 6vh, 7rem);
   width: auto;
   object-fit: contain;
+}
+
+.main__board-stage {
+  --board-gap: clamp(0.35rem, 0.7vw, 0.9rem);
+  --board-head-height: clamp(3.2rem, 6.5vw, 5.7rem);
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.main__board-stage > .board {
+  width: 100%;
 }

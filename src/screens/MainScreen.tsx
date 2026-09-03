@@ -5,8 +5,9 @@ import CategoryPreview from '../components/CategoryPreview'
 import BoardGrid from '../components/BoardGrid'
 import ClueView from '../components/ClueView'
 import FinalReveal from '../components/FinalReveal'
+import Podium from '../components/Podium'
 import Standings from '../components/Standings'
-import { buzzOrder } from '../game'
+import { buzzOrder, rankedByScore } from '../game'
 import miniLogo from '../assets/mini-logo.png'
 import './MainScreen.css'
 
@@ -17,6 +18,7 @@ import './MainScreen.css'
 export default function MainScreen() {
   const { state, loading } = useGameState()
   const players = useMemo(() => playersSorted(state), [state])
+  const ranked = useMemo(() => rankedByScore(state), [state])
   const joinUrl = `${window.location.origin}/play`
 
   if (loading) {
@@ -33,7 +35,7 @@ export default function MainScreen() {
 
   return (
     <div className="main mm-screen">
-      {state.phase !== 'lobby' && (
+      {state.phase !== 'lobby' && state.phase !== 'podium' && (
         <header className="main__bar">
           <img className="main__logo" src={miniLogo} alt="Mogul Money" />
         </header>
@@ -48,16 +50,26 @@ export default function MainScreen() {
         />
       )}
 
-      {showBoard &&
-        (state.active ? (
-          <ClueView active={state.active} state={state} />
-        ) : (
+      {showBoard && (
+        <div className="main__board-stage">
           <BoardGrid board={board} state={state} />
-        ))}
+          {state.active && (
+            <ClueView
+              active={state.active}
+              state={state}
+              showAnswer={state.active.answerRevealed}
+            />
+          )}
+        </div>
+      )}
 
       {state.phase === 'final' && <FinalReveal players={players} state={state} />}
 
-      {state.phase !== 'lobby' && (
+      {state.phase === 'podium' && (
+        <Podium ranked={ranked} podiumIndex={state.podiumIndex} />
+      )}
+
+      {state.phase !== 'lobby' && state.phase !== 'podium' && (
         <Standings
           players={players}
           activeId={showBoard ? firstBuzz : null}

@@ -32,7 +32,7 @@ One room, at `games/${GAME_ID}` (`GAME_ID` comes from `VITE_GAME_ID`, default
 
 ```jsonc
 games/main: {
-  phase: "lobby",           // lobby | preview1 | board1 | preview2 | board2 | final
+  phase: "lobby",           // lobby | preview1 | board1 | preview2 | board2 | final | podium
   previewIndex: 0,          // which category slide the preview phases are on
   startedAt: 1730000000000,
   players: {
@@ -41,7 +41,8 @@ games/main: {
   used: { "1-3-2": true },  // `${board}-${category}-${row}` — spent clues
   active: {                 // null when the board is showing
     board: 1, category: 3, row: 2,
-    revealed: true          // false = main screen goes blank, host keeps talking
+    revealed: true,         // false = main screen goes blank, host keeps talking
+    answerRevealed: false   // true = main screen also shows the correct response
   },
   buzzes: { "-Nxyz": 1730000000123 },  // playerId -> SERVER timestamp
   final: {
@@ -69,6 +70,7 @@ progress lives in `used`, `players[].score` and `final`.
 | `preview1`/`preview2`| Categories slide in one at a time       | Back/Next; **Start board N** appears on the last one |
 | `board1`/`board2`    | 5×5 grid, or the open clue              | Tap a value to open it; buzz queue; award points     |
 | `final`              | Wagers, then answers around the truth   | Reveal question, cycle the reveal cursor, score      |
+| `podium`             | Pedestals + also-rans, uncovered last→first | Advance the podium cursor, reveal all, reset     |
 
 Board 1 is 100–500; board 2 is 200–1000. Values are always derived from
 position by `clueValue(board, row)` — never stored.

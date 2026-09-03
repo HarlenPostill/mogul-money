@@ -10,6 +10,7 @@
 
 .preview__eyebrow {
   text-align: center;
+  animation: preview-eyebrow-enter 0.45s var(--mm-ease) both;
 }
 
 .preview__list {
@@ -66,9 +67,42 @@
   letter-spacing: 0.04em;
 }
 
+.preview__desc-shell {
+  display: grid;
+  grid-template-rows: 0fr;
+  min-width: 0;
+  transition: grid-template-rows 0.42s var(--mm-ease);
+}
+
+.preview__item--current .preview__desc-shell {
+  grid-template-rows: 1fr;
+}
+
 .preview__desc {
+  min-height: 0;
+  overflow: hidden;
   font-family: var(--mm-font-body);
   font-size: clamp(0.8rem, 1.4vw, 1.25rem);
   font-weight: 500;
   color: var(--mm-ink-soft);
+  opacity: 0;
+  transform: translateY(0.35rem);
+  transition: opacity 0.2s ease, transform 0.42s var(--mm-ease);
+}
+
+.preview__item--current .preview__desc {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.preview__item--leaving .preview__desc {
+  opacity: 0;
+  transform: translateY(-0.25rem);
+}
+
+@keyframes preview-eyebrow-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-0.65rem);
+  }
 }

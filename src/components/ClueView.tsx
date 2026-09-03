@@ -27,11 +27,15 @@ export default function ClueView({ active, state, showAnswer }: Props) {
 
       <div className="clue__body">
         {active.revealed ? (
-          <p className="clue__question">{clue.question}</p>
+          <div className="clue__copy">
+            <p className={`clue__question${showAnswer ? ' clue__question--out' : ''}`}>
+              {clue.question}
+            </p>
+            {showAnswer && <p className="clue__question clue__answer">{clue.answer}</p>}
+          </div>
         ) : (
           <p className="clue__hidden">Question hidden</p>
         )}
-        {showAnswer && <p className="clue__answer">{clue.answer}</p>}
       </div>
 
       {buzzed.length > 0 && (

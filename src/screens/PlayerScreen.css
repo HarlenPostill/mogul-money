@@ -64,6 +64,7 @@
 .player__muted {
   font-family: var(--mm-font-body);
   font-size: 0.85rem;
+  padding-top: 2.25rem;
   color: var(--mm-muted);
   text-align: center;
 }

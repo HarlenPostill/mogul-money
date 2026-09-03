@@ -9,14 +9,18 @@ import {
   closeClue,
   openClue,
   playersSorted,
+  rankedByScore,
   removePlayer,
   resetFinal,
   resetGame,
   revealFinalQuestion,
+  setClueAnswerRevealed,
   setClueRevealed,
   setFinalRevealIndex,
   setPhase,
+  setPodiumIndex,
   setPreviewIndex,
+  stepPodiumIndex,
   startGame,
   unmarkClue,
   useGameState,
@@ -78,22 +82,21 @@ function LobbyPanel({ players }: { players: Player[] }) {
 function PreviewPanel({ board, index }: { board: BoardId; index: number }) {
   const { categories } = boardContent(board)
   const last = index >= categories.length - 1
+  const current = index >= 0 ? categories[index] : null
 
   return (
     <section className="host__panel">
       <p className="mm-eyebrow">
-        Category {Math.min(index + 1, categories.length)} of {categories.length}
+        Categories · {Math.max(0, index + 1)} of {categories.length}
       </p>
-      <h2 className="host__title">{categories[Math.min(index, categories.length - 1)].title}</h2>
-      <p className="host__muted">
-        {categories[Math.min(index, categories.length - 1)].description}
-      </p>
+      <h2 className="host__title">{current?.title ?? 'Ready to reveal'}</h2>
+      <p className="host__muted">{current?.description ?? 'Press Next to reveal the first category.'}</p>
 
       <div className="host__pair">
         <button
           type="button"
           className="mm-btn mm-btn--ghost"
-          disabled={index <= 0}
+          disabled={index <= -1}
           onClick={() => setPreviewIndex(index - 1)}
         >
           Back
@@ -148,7 +151,7 @@ function BoardPanel({
             type="button"
             className="mm-btn host__wide"
             onClick={() => {
-              setPreviewIndex(0)
+              setPreviewIndex(-1)
               setPhase(board === 1 ? 'preview2' : 'final')
             }}
           >
@@ -180,6 +183,16 @@ function BoardPanel({
         >
           {active.revealed ? 'Hide from room' : 'Show to room'}
         </button>
+        <button
+          type="button"
+          className="mm-btn mm-btn--ghost"
+          onClick={() => setClueAnswerRevealed(!active.answerRevealed)}
+        >
+          {active.answerRevealed ? 'Hide answer' : 'Reveal answer'}
+        </button>
+      </div>
+
+      <div className="host__pair">
         <button
           type="button"
           className="mm-btn mm-btn--ghost"
@@ -368,6 +381,89 @@ function FinalPanel({ state, players }: { state: GameState; players: Player[] })
       >
         Reset final round
       </button>
+
+      <button
+        type="button"
+        className="mm-btn host__wide"
+        onClick={() => {
+          setPodiumIndex(0)
+          setPhase('podium')
+        }}
+      >
+        Go to podium
+      </button>
+    </section>
+  )
+}
+
+function PodiumPanel({ state, players }: { state: GameState; players: Player[] }) {
+  const ranked = rankedByScore(state)
+  const total = ranked.length
+  const { podiumIndex } = state
+  // Places are revealed from last up to first, so the next reveal is the
+  // best-scoring team not yet uncovered.
+  const nextUp = podiumIndex < total ? ranked[total - podiumIndex - 1] : null
+
+  return (
+    <section className="host__panel">
+      <p className="mm-eyebrow">Reveal places · last to first</p>
+      <p className="host__question">
+        {podiumIndex >= total
+          ? 'Every place revealed 🎉'
+          : nextUp
+            ? `Next: ${nextUp.name} (${nextUp.score.toLocaleString()})`
+            : 'Nobody to reveal'}
+      </p>
+
+      <div className="host__pair">
+        <button
+          type="button"
+          className="mm-btn mm-btn--ghost"
+          disabled={podiumIndex <= 0}
+          onClick={() => stepPodiumIndex(-1, total)}
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          className="mm-btn"
+          disabled={podiumIndex >= total}
+          onClick={() => stepPodiumIndex(1, total)}
+        >
+          Reveal next
+        </button>
+      </div>
+
+      <button
+        type="button"
+        className="mm-btn mm-btn--ghost host__wide"
+        onClick={() => setPodiumIndex(total)}
+      >
+        Reveal everyone
+      </button>
+      <button
+        type="button"
+        className="mm-btn mm-btn--ghost host__wide"
+        onClick={() => setPodiumIndex(0)}
+      >
+        Reset podium
+      </button>
+
+      <p className="mm-eyebrow">Standings</p>
+      <ol className="host__list">
+        {ranked.map((player, i) => (
+          <li
+            key={player.id}
+            className={`host__row${i === 0 ? ' host__row--first' : ''}`}
+          >
+            <span>
+              {i + 1}. {player.name}
+            </span>
+            <span className="host__muted">{player.score.toLocaleString()}</span>
+          </li>
+        ))}
+        {players.length === 0 && <li className="host__muted">No teams.</li>}
+      </ol>
     </section>
   )
 }
@@ -394,6 +490,7 @@ export default function HostScreen() {
       {state.phase === 'board1' && <BoardPanel board={1} state={state} players={players} />}
       {state.phase === 'board2' && <BoardPanel board={2} state={state} players={players} />}
       {state.phase === 'final' && <FinalPanel state={state} players={players} />}
+      {state.phase === 'podium' && <PodiumPanel state={state} players={players} />}
 
       <footer className="host__footer">
         <button
