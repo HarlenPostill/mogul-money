@@ -93,6 +93,14 @@
   cursor: default;
 }
 
+.board__cell--reopenable {
+  cursor: pointer;
+}
+
+.board__cell--reopenable:hover {
+  color: var(--mm-gold);
+}
+
 .board__cell--spent::before {
   background: transparent;
 }

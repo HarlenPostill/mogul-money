@@ -144,6 +144,7 @@ function BoardPanel({
           board={board}
           state={state}
           compact
+          allowSpent
           onPick={(category, row) => openClue(board, category, row)}
         />
         {boardComplete(state, board) && (

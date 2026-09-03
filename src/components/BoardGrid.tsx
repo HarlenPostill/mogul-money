@@ -9,10 +9,12 @@ interface Props {
   state: GameState
   /** omit to render a read-only board (the audience screen) */
   onPick?: (category: number, row: number) => void
+  /** host boards can reopen clues that have already been completed */
+  allowSpent?: boolean
   compact?: boolean
 }
 
-export default function BoardGrid({ board, state, onPick, compact }: Props) {
+export default function BoardGrid({ board, state, onPick, allowSpent = false, compact }: Props) {
   const { categories } = boardContent(board)
   const activeCategory = state.active?.board === board ? state.active.category : null
 
@@ -61,6 +63,7 @@ export default function BoardGrid({ board, state, onPick, compact }: Props) {
                 className={[
                   'board__cell',
                   spent ? 'board__cell--spent' : '',
+                  spent && allowSpent ? 'board__cell--reopenable' : '',
                   active ? 'board__cell--active' : '',
                   `board__cell--col-${col}`,
                   `board__cell--row-${row}`,
@@ -68,10 +71,11 @@ export default function BoardGrid({ board, state, onPick, compact }: Props) {
                   .filter(Boolean)
                   .join(' ')}
                 style={{ '--reveal-delay': `${(row + col + 1) * 90}ms` } as CSSProperties}
-                disabled={!onPick || spent}
+                disabled={!onPick || (spent && !allowSpent)}
+                aria-label={`${category.title}, ${clueValue(board, row)}${spent ? ', completed — reopen' : ''}`}
                 onClick={() => onPick?.(col, row)}
               >
-                <span className="board__value">{spent ? '' : clueValue(board, row)}</span>
+                <span className="board__value">{spent && !allowSpent ? '' : clueValue(board, row)}</span>
               </button>
             )
           })}
