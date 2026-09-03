@@ -39,6 +39,9 @@ export interface Player {
 export interface Clue {
   question: string
   answer: string
+  /** Optional visual prompt, used by image-based clues such as Geo-guesser. */
+  image?: string
+  imageAlt?: string
 }
 
 /** A column on the board. `clues[0]` is the cheapest row. */

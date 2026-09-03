@@ -27,10 +27,17 @@ export default function ClueView({ active, state, showAnswer }: Props) {
 
       <div className="clue__body">
         {active.revealed ? (
-          <div className="clue__copy">
-            <p className={`clue__question${showAnswer ? ' clue__question--out' : ''}`}>
-              {clue.question}
-            </p>
+          <div className={`clue__copy${clue.image ? ' clue__copy--image' : ''}`}>
+            {clue.image ? (
+              <div className={`clue__image-prompt${showAnswer ? ' clue__question--out' : ''}`}>
+                <p className="clue__question">{clue.question}</p>
+                <img className="clue__image" src={clue.image} alt={clue.imageAlt ?? ''} />
+              </div>
+            ) : (
+              <p className={`clue__question${showAnswer ? ' clue__question--out' : ''}`}>
+                {clue.question}
+              </p>
+            )}
             {showAnswer && <p className="clue__question clue__answer">{clue.answer}</p>}
           </div>
         ) : (

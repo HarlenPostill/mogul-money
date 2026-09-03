@@ -3,6 +3,42 @@
   overflow: hidden;
 }
 
+.main:fullscreen {
+  background: var(--mm-bg);
+}
+
+.main__fullscreen {
+  position: fixed;
+  z-index: 20;
+  top: clamp(0.75rem, 2vw, 1.5rem);
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--mm-line);
+  border-radius: 50%;
+  background: var(--mm-veil);
+  color: var(--mm-text);
+  font-family: var(--mm-font-body);
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: background 0.12s var(--mm-ease), transform 0.12s var(--mm-ease);
+}
+
+.main__fullscreen:hover {
+  background: rgba(44, 5, 73, 0.8);
+}
+
+.main__fullscreen:active {
+  transform: scale(0.94);
+}
+
+.main__fullscreen:focus-visible {
+  outline: 2px solid var(--mm-gold-deep);
+  outline-offset: 3px;
+}
+
 .main--loading {
   display: grid;
   place-items: center;

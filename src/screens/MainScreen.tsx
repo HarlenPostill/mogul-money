@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useGameState, playersSorted } from '../game'
 import Lobby from '../components/Lobby'
 import CategoryPreview from '../components/CategoryPreview'
@@ -17,9 +17,33 @@ import './MainScreen.css'
  */
 export default function MainScreen() {
   const { state, loading } = useGameState()
+  const screenRef = useRef<HTMLDivElement>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
   const players = useMemo(() => playersSorted(state), [state])
   const ranked = useMemo(() => rankedByScore(state), [state])
   const joinUrl = `${window.location.origin}/play`
+
+  useEffect(() => {
+    const updateFullscreenState = () => {
+      setIsFullscreen(document.fullscreenElement === screenRef.current)
+    }
+
+    document.addEventListener('fullscreenchange', updateFullscreenState)
+    updateFullscreenState()
+    return () => document.removeEventListener('fullscreenchange', updateFullscreenState)
+  }, [])
+
+  const toggleFullscreen = async () => {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen()
+      } else {
+        await screenRef.current?.requestFullscreen()
+      }
+    } catch {
+      // Fullscreen can be denied by browser permissions or an embedded context.
+    }
+  }
 
   if (loading) {
     return (
@@ -34,7 +58,16 @@ export default function MainScreen() {
   const firstBuzz = buzzOrder(state)[0] ?? null
 
   return (
-    <div className="main mm-screen">
+    <div ref={screenRef} className="main mm-screen">
+      <button
+        type="button"
+        className="main__fullscreen"
+        onClick={toggleFullscreen}
+        aria-label={isFullscreen ? 'Exit full screen' : 'Enter full screen'}
+        title={isFullscreen ? 'Exit full screen' : 'Enter full screen'}
+      >
+        {isFullscreen ? '⤢' : '⛶'}
+      </button>
       {state.phase !== 'lobby' && state.phase !== 'podium' && (
         <header className="main__bar">
           <img className="main__logo" src={miniLogo} alt="Mogul Money" />
