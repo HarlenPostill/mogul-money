@@ -1,0 +1,107 @@
+.final {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1.4fr) 1fr;
+  gap: clamp(0.5rem, 1.5vw, 1.5rem);
+  padding: clamp(0.75rem, 2vw, 2rem);
+  align-items: center;
+}
+
+.final__column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vh, 1.25rem);
+  min-width: 0;
+}
+
+.final__centre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vh, 1.5rem);
+  text-align: center;
+  padding: clamp(0.75rem, 2vw, 2rem);
+  border-radius: var(--mm-radius);
+  border: 2px solid var(--mm-line);
+  background: var(--mm-veil);
+  min-height: 0;
+}
+
+.final__question {
+  font-size: clamp(1.1rem, 2.6vw, 2.6rem);
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.final__answer {
+  min-height: 2.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0 0.75em;
+  border-radius: var(--mm-radius);
+  font-size: clamp(1rem, 2.2vw, 2.2rem);
+  text-transform: uppercase;
+  background: transparent;
+  color: transparent;
+  transition: background 0.4s var(--mm-ease), color 0.4s var(--mm-ease);
+}
+
+.final__answer--in {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+}
+
+.final-card {
+  padding: clamp(0.5rem, 1.4vw, 1.1rem) clamp(0.6rem, 1.6vw, 1.25rem);
+  border-radius: var(--mm-radius);
+  border: 2px solid var(--mm-line);
+  background: var(--mm-veil);
+  transition: background 0.35s var(--mm-ease), color 0.35s var(--mm-ease),
+    border-color 0.35s var(--mm-ease), transform 0.35s var(--mm-ease);
+}
+
+.final-card--revealed {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  border-color: transparent;
+  transform: scale(1.03);
+}
+
+.final-card__name {
+  font-size: clamp(0.9rem, 1.6vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.final-card__answer {
+  font-family: var(--mm-font-body);
+  font-weight: 600;
+  font-size: clamp(0.85rem, 1.5vw, 1.35rem);
+  margin-top: 0.3em;
+  overflow-wrap: anywhere;
+}
+
+.final-card__wager {
+  font-family: var(--mm-font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-top: 0.4em;
+  opacity: 0.65;
+}
+
+/* Narrow screens (and the host phone) stack the whole thing. */
+@media (max-width: 900px) {
+  .final {
+    grid-template-columns: 1fr;
+  }
+
+  .final__centre {
+    order: -1;
+  }
+}

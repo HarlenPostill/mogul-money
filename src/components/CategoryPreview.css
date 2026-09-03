@@ -1,0 +1,74 @@
+.preview {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.75rem, 2vh, 2rem);
+  padding: clamp(1rem, 4vw, 4rem);
+}
+
+.preview__eyebrow {
+  text-align: center;
+}
+
+.preview__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1.2vh, 1rem);
+}
+
+.preview__item {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 2rem);
+  padding: clamp(0.6rem, 1.6vh, 1.4rem) clamp(1rem, 3vw, 2.5rem);
+  border-radius: var(--mm-radius);
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+
+  /* off-stage until revealed */
+  opacity: 0;
+  transform: translateX(110%);
+  transition: opacity 0.5s var(--mm-ease), transform 0.65s var(--mm-ease),
+    filter 0.4s var(--mm-ease);
+}
+
+.preview__item--in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Revealed but no longer the one being explained. */
+.preview__item--in:not(.preview__item--current) {
+  filter: brightness(0.82) saturate(0.85);
+}
+
+.preview__number {
+  font-size: clamp(1rem, 2vw, 2rem);
+  opacity: 0.45;
+  min-width: 1.2em;
+}
+
+.preview__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.preview__title {
+  font-size: clamp(1.4rem, 4vw, 4rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.preview__desc {
+  font-family: var(--mm-font-body);
+  font-size: clamp(0.8rem, 1.4vw, 1.25rem);
+  font-weight: 500;
+  color: var(--mm-ink-soft);
+}

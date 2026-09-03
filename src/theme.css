@@ -1,0 +1,175 @@
+/* ------------------------------------------------------------------
+   Mogul Money design system.
+   Every colour in the app comes from here. Do not hard-code hex values
+   in component stylesheets.
+   ------------------------------------------------------------------ */
+
+@font-face {
+  font-family: 'Triumvirate';
+  src: url('/Triumvirate CG Inserat.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  /* Purple field — #3A055E top-right to #5A089A bottom-left */
+  --mm-purple-light: #5a089a;
+  --mm-purple-dark: #3a055e;
+  --mm-bg: linear-gradient(225deg, var(--mm-purple-dark) 0%, var(--mm-purple-light) 100%);
+
+  /* Gold — #FAD18E top-right to #FDEACF bottom-left */
+  --mm-gold-deep: #fad18e;
+  --mm-gold-pale: #fdeacf;
+  --mm-gold: linear-gradient(225deg, var(--mm-gold-deep) 0%, var(--mm-gold-pale) 100%);
+
+  /* Ink used on top of any gold surface */
+  --mm-ink: #2c0549;
+  --mm-ink-soft: rgba(44, 5, 73, 0.62);
+
+  /* Text on the purple field */
+  --mm-text: var(--mm-gold-pale);
+  --mm-muted: rgba(253, 234, 207, 0.6);
+  --mm-line: rgba(250, 209, 142, 0.28);
+  --mm-veil: rgba(44, 5, 73, 0.55);
+
+  --mm-good: #7bf0a8;
+  --mm-bad: #ff7b7b;
+
+  --mm-radius: 14px;
+  --mm-radius-sm: 8px;
+  --mm-font: 'Triumvirate', 'Haettenschweiler', Impact, sans-serif;
+  --mm-font-body: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mm-shadow: 0 18px 40px rgba(16, 2, 30, 0.45);
+  --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--mm-bg);
+  background-attachment: fixed;
+  color: var(--mm-text);
+  font-family: var(--mm-font);
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea {
+  font-family: var(--mm-font-body);
+}
+
+/* ------------------------------------------------------- shared primitives */
+
+/* Gold surface with dark ink on it. */
+.mm-gold-surface {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+}
+
+.mm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.85em 1.4em;
+  border-radius: var(--mm-radius);
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  font-family: var(--mm-font);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: transform 0.12s var(--mm-ease), filter 0.12s var(--mm-ease);
+}
+
+.mm-btn:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.mm-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.mm-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.mm-btn--ghost {
+  background: transparent;
+  color: var(--mm-text);
+  border: 2px solid var(--mm-line);
+}
+
+.mm-btn--danger {
+  background: transparent;
+  color: var(--mm-bad);
+  border: 2px solid currentColor;
+}
+
+.mm-input {
+  width: 100%;
+  padding: 0.9em 1em;
+  border-radius: var(--mm-radius);
+  border: 2px solid var(--mm-line);
+  background: var(--mm-veil);
+  color: var(--mm-text);
+  font-size: 1rem;
+}
+
+.mm-input::placeholder {
+  color: var(--mm-muted);
+}
+
+.mm-input:focus {
+  outline: none;
+  border-color: var(--mm-gold-deep);
+}
+
+.mm-panel {
+  background: var(--mm-veil);
+  border: 1px solid var(--mm-line);
+  border-radius: var(--mm-radius);
+}
+
+.mm-eyebrow {
+  font-family: var(--mm-font-body);
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--mm-muted);
+}
+
+.mm-screen {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}

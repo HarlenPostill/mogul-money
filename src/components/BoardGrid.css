@@ -1,0 +1,81 @@
+.board {
+  --board-gap: clamp(0.35rem, 0.7vw, 0.9rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--board-gap);
+  flex: 1;
+  min-height: 0;
+  padding: 0 clamp(0.5rem, 1.2vw, 1.25rem);
+}
+
+.board__row {
+  display: flex;
+  gap: var(--board-gap);
+  flex: 1;
+  min-height: 0;
+}
+
+.board__row--head {
+  flex: 0 0 auto;
+}
+
+.board__category,
+.board__cell {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--mm-radius);
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  text-align: center;
+}
+
+.board__category {
+  padding: clamp(0.5rem, 1vw, 0.9rem) 0.5rem;
+  font-size: clamp(0.7rem, 1.25vw, 1.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  min-height: 3.2em;
+}
+
+.board__cell {
+  font-size: clamp(1.2rem, 3.4vw, 3.6rem);
+  line-height: 1;
+  transition: transform 0.15s var(--mm-ease), filter 0.15s var(--mm-ease);
+}
+
+.board__cell:not(:disabled):hover {
+  filter: brightness(1.08);
+  transform: scale(1.02);
+}
+
+/* Spent clues leave an empty inset well rather than disappearing. */
+.board__cell--spent {
+  background: rgba(44, 5, 73, 0.4);
+  border: 1px solid var(--mm-line);
+  cursor: default;
+}
+
+.board__cell--active {
+  box-shadow: 0 0 0 4px var(--mm-gold-pale);
+}
+
+.board--compact .board__category {
+  font-size: 0.6rem;
+  min-height: 0;
+  padding: 0.4rem 0.2rem;
+  letter-spacing: 0.04em;
+}
+
+.board--compact .board__cell {
+  font-size: 1rem;
+  padding: 0.6rem 0;
+}
+
+.board--compact {
+  padding: 0;
+  --board-gap: 0.3rem;
+}

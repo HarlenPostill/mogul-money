@@ -1,0 +1,121 @@
+.player {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+  gap: 1rem;
+  min-height: 100%;
+}
+
+.player__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--mm-radius);
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+}
+
+.player__name {
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player__score {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4em;
+  font-size: 1.9rem;
+  line-height: 1;
+}
+
+.player__score small {
+  font-size: 0.7rem;
+  opacity: 0.55;
+}
+
+.player__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.player__panel--grow {
+  flex: 1;
+  justify-content: center;
+}
+
+.player__logo {
+  height: 2.5rem;
+  width: auto;
+  object-fit: contain;
+  align-self: center;
+  margin-bottom: 0.5rem;
+}
+
+.player__wide {
+  width: 100%;
+}
+
+.player__muted {
+  font-family: var(--mm-font-body);
+  font-size: 0.85rem;
+  color: var(--mm-muted);
+  text-align: center;
+}
+
+.player__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.player__field .player__muted {
+  text-align: left;
+}
+
+.player__question {
+  font-size: 1.3rem;
+  line-height: 1.25;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* The buzzer wants to be the only thing you can possibly hit. */
+.player__buzzer {
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 55vh;
+  border-radius: 50%;
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  font-family: var(--mm-font);
+  font-size: clamp(3rem, 18vw, 6rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: var(--mm-shadow);
+  transition: transform 0.08s var(--mm-ease), filter 0.2s var(--mm-ease);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.player__buzzer:not(:disabled):active {
+  transform: scale(0.94);
+}
+
+.player__buzzer--idle {
+  background: transparent;
+  color: var(--mm-muted);
+  border: 3px dashed var(--mm-line);
+  box-shadow: none;
+  font-size: clamp(1.5rem, 9vw, 3rem);
+}
+
+.player__buzzer--locked {
+  filter: saturate(0.6) brightness(0.9);
+  opacity: 1;
+}

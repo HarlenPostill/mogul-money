@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "games": {
+      "$gameId": {
+        ".read": true,
+        ".write": true,
+        "buzzes": {
+          "$playerId": {
+            ".validate": "!data.exists() || newData.val() == data.val()"
+          }
+        }
+      }
+    }
+  }
+}

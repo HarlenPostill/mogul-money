@@ -1,0 +1,105 @@
+.clue {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 2vh, 2rem);
+  padding: clamp(1rem, 3vw, 3rem);
+  animation: clue-open 0.35s var(--mm-ease) both;
+}
+
+@keyframes clue-open {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+.clue__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--mm-gold-deep);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: clamp(0.8rem, 1.6vw, 1.6rem);
+}
+
+.clue__value {
+  font-size: clamp(1.2rem, 2.4vw, 2.4rem);
+  letter-spacing: 0;
+}
+
+.clue__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vh, 2.5rem);
+  text-align: center;
+}
+
+.clue__question {
+  font-size: clamp(1.6rem, 5.2vw, 5rem);
+  line-height: 1.1;
+  text-transform: uppercase;
+  max-width: 22ch;
+}
+
+.clue__hidden {
+  font-family: var(--mm-font-body);
+  font-size: 1rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--mm-muted);
+}
+
+.clue__answer {
+  padding: 0.5em 1em;
+  border-radius: var(--mm-radius);
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  font-size: clamp(1rem, 2.4vw, 2rem);
+  text-transform: uppercase;
+}
+
+.clue__buzzes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.clue__buzzes li {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.45em 1em;
+  border-radius: 999px;
+  border: 2px solid var(--mm-line);
+  font-size: clamp(0.85rem, 1.6vw, 1.4rem);
+  text-transform: uppercase;
+  animation: buzz-in 0.25s var(--mm-ease) both;
+}
+
+.clue__buzzes li.is-first {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+  border-color: transparent;
+}
+
+.clue__buzz-rank {
+  opacity: 0.5;
+}
+
+@keyframes buzz-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
