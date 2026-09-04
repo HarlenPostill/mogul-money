@@ -131,6 +131,6 @@ export const BOARD_2: BoardContent = {
 
 export const FINAL: FinalContent = {
   category: 'Final Mogul',
-  question: 'This company, founded in 1602, is widely considered the first to issue tradeable shares to the public.',
-  answer: 'The Dutch East India Company (VOC)',
+  question: 'Which Australian city is further west from Sydney: Melbourne or Hobart?',
+  answer: 'Melbourne',
 }
