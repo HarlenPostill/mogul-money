@@ -39,7 +39,7 @@ function Join({ onJoined }: { onJoined: (id: string) => void }) {
         value={name}
         maxLength={24}
         autoFocus
-        placeholder="e.g. The Liquidators"
+        placeholder="e.g. The Peach Wankers"
         onChange={(event) => setName(event.target.value)}
       />
       <button type="submit" className="mm-btn player__wide" disabled={!name.trim() || busy}>
