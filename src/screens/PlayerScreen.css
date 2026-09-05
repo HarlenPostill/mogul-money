@@ -120,3 +120,49 @@
   filter: saturate(0.6) brightness(0.9);
   opacity: 1;
 }
+
+.player__wordly {
+  padding: 0.9rem;
+}
+
+.player__wordly-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.player__wordly-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.player__wordly-cell {
+  aspect-ratio: 1;
+  border-radius: var(--mm-radius-sm);
+  border: 1px solid var(--mm-line);
+  background: var(--mm-veil);
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  text-transform: uppercase;
+}
+
+.player__wordly-cell--exact {
+  background: var(--mm-gold);
+  color: var(--mm-ink);
+}
+
+.player__wordly-cell--present {
+  border-color: var(--mm-gold-deep);
+}
+
+.player__wordly-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.player__wordly .player__muted {
+  padding-top: 0;
+}

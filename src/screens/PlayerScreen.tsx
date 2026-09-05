@@ -15,6 +15,34 @@ import { FINAL } from '../content'
 import miniLogo from '../assets/mini-logo.png'
 import './PlayerScreen.css'
 
+const WORDLY_TARGET = 'MOGUL'
+const WORDLY_MAX_GUESSES = 6
+
+type LetterState = 'exact' | 'present' | 'miss'
+
+function scoreGuess(guess: string, target: string): LetterState[] {
+  const result: LetterState[] = Array.from({ length: target.length }, () => 'miss')
+  const remaining = target.split('')
+
+  for (let i = 0; i < guess.length; i += 1) {
+    if (guess[i] === target[i]) {
+      result[i] = 'exact'
+      remaining[i] = ''
+    }
+  }
+
+  for (let i = 0; i < guess.length; i += 1) {
+    if (result[i] === 'exact') continue
+    const hit = remaining.indexOf(guess[i])
+    if (hit >= 0) {
+      result[i] = 'present'
+      remaining[hit] = ''
+    }
+  }
+
+  return result
+}
+
 function Join({ onJoined }: { onJoined: (id: string) => void }) {
   const [name, setName] = useState('')
   const [busy, setBusy] = useState(false)
@@ -74,6 +102,80 @@ function NameEditor({ player }: { player: Player }) {
       </button>
       <p className="player__muted">
         You can change this right up until the host starts the game.
+      </p>
+    </div>
+  )
+}
+
+function LobbyWordly() {
+  const [draft, setDraft] = useState('')
+  const [guesses, setGuesses] = useState<string[]>([])
+  const solved = guesses.includes(WORDLY_TARGET)
+  const outOfTurns = guesses.length >= WORDLY_MAX_GUESSES
+  const done = solved || outOfTurns
+
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault()
+    if (done) return
+    const next = draft.trim().toUpperCase()
+    if (next.length !== WORDLY_TARGET.length) return
+    setGuesses((prev) => [...prev, next])
+    setDraft('')
+  }
+
+  return (
+    <div className="player__panel mm-panel player__wordly">
+      <p className="mm-eyebrow">Lobby Wordly · Guess the 5-letter word</p>
+
+      <div className="player__wordly-grid" aria-live="polite">
+        {Array.from({ length: WORDLY_MAX_GUESSES }, (_, row) => {
+          const guess = guesses[row]
+          const score = guess ? scoreGuess(guess, WORDLY_TARGET) : null
+
+          return (
+            <div key={row} className="player__wordly-row">
+              {Array.from({ length: WORDLY_TARGET.length }, (_, col) => (
+                <span
+                  key={col}
+                  className={[
+                    'player__wordly-cell',
+                    score ? `player__wordly-cell--${score[col]}` : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  {guess?.[col] ?? ''}
+                </span>
+              ))}
+            </div>
+          )
+        })}
+      </div>
+
+      <form className="player__wordly-form" onSubmit={submit}>
+        <input
+          className="mm-input"
+          value={draft}
+          maxLength={WORDLY_TARGET.length}
+          placeholder="Type your guess"
+          onChange={(event) => setDraft(event.target.value.replace(/[^a-z]/gi, ''))}
+          disabled={done}
+        />
+        <button
+          type="submit"
+          className="mm-btn player__wide"
+          disabled={done || draft.trim().length !== WORDLY_TARGET.length}
+        >
+          Guess
+        </button>
+      </form>
+
+      <p className="player__muted">
+        {solved
+          ? 'Nice — you got MOGUL.'
+          : outOfTurns
+            ? 'Out of guesses. The word was MOGUL.'
+            : 'Gold = right letter, right spot. Veil = letter is in the word.'}
       </p>
     </div>
   )
@@ -215,7 +317,12 @@ export default function PlayerScreen() {
         </span>
       </header>
 
-      {state.phase === 'lobby' && <NameEditor key={player.name} player={player} />}
+      {state.phase === 'lobby' && (
+        <>
+          <NameEditor key={player.name} player={player} />
+          <LobbyWordly />
+        </>
+      )}
 
       {(state.phase === 'preview1' || state.phase === 'preview2') && (
         <div className="player__panel">
