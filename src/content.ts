@@ -12,11 +12,11 @@ export const BOARD_1: BoardContent = {
   categories: [
     {
       title: 'Do you have games on your phone?',
-      description: 'Do you? can I have a turn?',
+      description: 'Do you? Can I have a turn?',
       clues: [
         { question: 'This endless runner is commonly associated with brainrot videos.', answer: 'Subway Surfers' },
         { question: 'This literal copycat repeats anything you say in a high-pitched voice.', answer: 'Talking Tom' },
-        { question: 'This notoriously difficult bird-rage game was removed from the App Store.', answer: 'Flappy Bird' },
+        { question: 'This notoriously difficult bird-themed game was removed from the App Store.', answer: 'Flappy Bird' },
         { question: 'Featuring Om Nom, a green alien, this game was released in 2010.', answer: 'Cut the Rope' },
         { question: 'This game was a viral public-safety campaign by Metro Trains Melbourne.', answer: 'Dumb Ways to Die' },
       ],
@@ -36,16 +36,16 @@ export const BOARD_1: BoardContent = {
       title: 'Before and after',
       description: 'Two things joined by a shared word.',
       clues: [
-        { question: 'Combine “Despicable Me” and “me time.”', answer: 'Despicable Me Time' },
-        { question: 'Combine “BeReal” and “real estate.”', answer: 'BeReal Estate' },
-        { question: 'Combine “Google Drive” and “drive-by.”', answer: 'Google Drive-By' },
-        { question: 'Combine “Triple J” and “J-pop.”', answer: 'Triple J-Pop' },
-        { question: 'Combine “one piece” and “pièce de résistance.”', answer: 'One Pièce de Résistance' },
+        { question: 'This 2010 animated illumination bald super-villain movie is another way of saying "I’m having personal time', answer: 'Despicable Me Time' },
+        { question: 'This app that gets everyone to take a photo at the same time is somewhere you go online to search for rental properties', answer: 'BeReal Estate' },
+        { question: 'This place that holds your docs, sheets, and slides is a shooting carried out from a moving vehicle', answer: 'Google Drive-By' },
+        { question: 'The NSW radio station at 105.7 and a genre of Japanese music', answer: 'Triple J-Pop' },
+        { question: 'The longest running pirate anime is a French phrase for the most impressive part of something', answer: 'One Pièce de Résistance' },
       ],
     },
     {
       title: 'TikTok',
-      description: 'Its all about time.',
+      description: 'It’s all about time.',
       clues: [
         { question: 'A leap year, in which calendars have 366 days instead of the usual 365, occurs this often.', answer: 'Every 4 years' },
         { question: 'This term for a 1,000-year span comes from the Latin words for “thousand” and “year.”', answer: 'Millennium' },
@@ -56,7 +56,7 @@ export const BOARD_1: BoardContent = {
     },
     {
       title: 'Words in Ari Merten',
-      description: 'Every answers must be unscrambled from the word “Merten.”',
+      description: 'Every answer must be unscrambled from the word "Merten."',
       clues: [
         { question: 'In order to live on a landlord’s property legally, you must pay this.', answer: 'Rent' },
         { question: 'The giant sequoia and the weeping willow are specific types of this large plant.', answer: 'Tree' },
@@ -73,9 +73,9 @@ export const BOARD_2: BoardContent = {
   categories: [
     {
       title: 'Do you know your ABCs?',
-      description: 'ABC (Australian Broadcasting Company) trivia.',
+      description: 'ABC (Australian Broadcasting Corporation) trivia.',
       clues: [
-        { question: 'This ABC-run radio station counts down the most popular voted songs in late January.', answer: 'Triple J' },
+        { question: 'This ABC-run radio station counts down the most popular songs in late January.', answer: 'Triple J' },
         { question: 'This TV channel, targeted at primary-school kids, launched in 2009 before later rebranding to ABC ME.', answer: 'ABC3' },
         { question: 'This bear toy is Play School’s longest-serving toy, having featured in the first episode in 1966.', answer: 'Big Ted' },
         { question: 'Before becoming the Australian Broadcasting Corporation, the ABC was called this.', answer: 'Australian Broadcasting Commission' },
@@ -108,16 +108,16 @@ export const BOARD_2: BoardContent = {
       title: 'Before and after 2',
       description: 'Even more things joined by a shared word.',
       clues: [
-        { question: 'Combine “The Lion King” and “King Charles.”', answer: 'The Lion King Charles' },
-        { question: 'Combine “Lionel Messi” and “Messina.”', answer: 'Lionel Messina' },
-        { question: 'Combine “JB Hi-Fi” and “high five.”', answer: 'JB Hi-Five' },
-        { question: 'Combine “Spider-Man” and “Manchester United.”', answer: 'Spider-Manchester United' },
-        { question: 'Combine “Snapchat” and “ChatGPT.”', answer: 'SnapchatGPT' },
+        { question: 'This Disney movie featuring Simba is the current British monarch', answer: 'The Lion King Charles' },
+        { question: 'The second highest goal scorer in football is an Australian gelato chain', answer: 'Lionel Messina' },
+        { question: 'Australia’s largest electronics store is an Australian childrens musical group that was more pop focused than the Wiggles', answer: 'JB Hi-Five' },
+        { question: 'The latest superhero movie character to have a successful theatrical release is one of the most successful football clubs in England', answer: 'Spider-Manchester United' },
+        { question: 'This temporary photo sharing app is a product released by OpenAI', answer: 'SnapchatGPT' },
       ],
     },
     {
       title: 'Words in university',
-      description: 'Every answers must unscrambled from the word “university.”',
+      description: 'Every answer must be unscrambled from the word "university."',
       clues: [
         { question: 'This questionnaire gathers information about people’s opinions, habits, or experiences.', answer: 'Survey' },
         { question: 'Describing something unwanted that interferes with someone’s privacy or personal space.', answer: 'Intrusive' },

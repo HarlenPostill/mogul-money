@@ -71,7 +71,7 @@
   font-size: clamp(1.6rem, 5.2vw, 5rem);
   line-height: 1.1;
   text-transform: uppercase;
-  max-width: 22ch;
+  max-width: 28ch;
   animation: clue-question-in 0.35s var(--mm-ease) 1.95s both;
 }
 
